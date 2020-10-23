@@ -1,5 +1,5 @@
 import {
-  ServerActionType,
+  UserActionType,
   UserState,
   SET_SERVER_URL,
   USER_LOGOUT,
@@ -13,7 +13,7 @@ const initialState: UserState = {
   remember: false,
 };
 
-const serverReducer = (state = initialState, action: ServerActionType) => {
+const serverReducer = (state = initialState, action: UserActionType) => {
   switch (action.type) {
     case SET_SERVER_URL:
       return {

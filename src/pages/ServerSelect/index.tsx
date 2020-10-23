@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
-import {Button, Text, View} from 'react-native';
+import {Button, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '../../store';
 import {setServerUrl} from '../../store/user/actions';
+import {RouteStackParamList} from '../../router';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-const mapState = ({user: {url, token}}: RootState) => ({
+const mapState = ({user: {url}}: RootState) => ({
   url,
-  token,
 });
 
 const mapDispatch = {
@@ -16,14 +17,23 @@ const mapDispatch = {
 
 const connector = connect(mapState, mapDispatch);
 
+type ServerSelectNavigationProp = StackNavigationProp<
+  RouteStackParamList,
+  'ServerSelect'
+>;
+
 type ReduxProps = ConnectedProps<typeof connector>;
 
-const ServerSelect: React.FC<ReduxProps> = ({
-  url,
-  setServerUrl: setUrl,
-  token,
-}) => {
+const ServerSelect: React.FC<
+  ReduxProps & {
+    navigation: ServerSelectNavigationProp;
+  }
+> = ({url, setServerUrl: setUrl, navigation}) => {
   const [localUrl, setLocalUrl] = useState(url);
+  const submitUrl = (): void => {
+    setUrl(localUrl);
+    navigation.navigate('Login');
+  };
   return (
     <View style={{flex: 1}}>
       <TextInput
@@ -32,8 +42,7 @@ const ServerSelect: React.FC<ReduxProps> = ({
         value={localUrl}
         placeholder="https://jellyfin.myserver.net"
       />
-      <Button onPress={() => setUrl(localUrl)} title="Set URL" />
-      {!!token && <Text>Your token is: {token}</Text>}
+      <Button onPress={submitUrl} title="Set URL" />
     </View>
   );
 };

@@ -2,13 +2,20 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ServerSelect from './pages/ServerSelect';
+import Login from './pages/Login';
 
-const Stack = createStackNavigator();
+export type RouteStackParamList = {
+  ServerSelect: undefined;
+  Login: undefined;
+};
+
+const Stack = createStackNavigator<RouteStackParamList>();
 
 const RootRouter: React.FC = () => (
   <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="ServerSelect">
       <Stack.Screen name="ServerSelect" component={ServerSelect} />
+      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   </NavigationContainer>
 );

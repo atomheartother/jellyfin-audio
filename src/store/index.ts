@@ -1,10 +1,10 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {createStore, combineReducers, applyMiddleware, Action} from 'redux';
 import {combineEpics, createEpicMiddleware} from 'redux-observable';
 import user from './user';
 import userList from './userList';
-import userEpics from './user/epics';
+import userListEpics from './userList/epic';
 
-const rootEpic = combineEpics(userEpics);
+const rootEpic = combineEpics(userListEpics);
 
 const rootReducer = combineReducers({
   user,
@@ -13,7 +13,11 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware<
+  Action<any>,
+  Action<any>,
+  RootState
+>();
 
 const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
 

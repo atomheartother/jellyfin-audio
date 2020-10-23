@@ -4,12 +4,18 @@ export type UserListState = {
 
 export const USERLIST_ADD = 'USERLIST/ADD';
 
-interface AUserListAdd {
+export interface AUserListAdd {
   type: typeof USERLIST_ADD;
   users: User[];
 }
 
-export type UserListActionType = AUserListAdd;
+export const USERLIST_GET_PUBLIC = 'USERLIST/GET_PUBLIC';
+
+export interface AUserListGetPublic {
+  type: typeof USERLIST_GET_PUBLIC;
+}
+
+export type UserListActionType = AUserListAdd | AUserListGetPublic;
 
 export type User = {
   Name: string;
