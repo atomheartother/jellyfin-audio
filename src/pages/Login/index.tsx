@@ -6,8 +6,8 @@ import {userListGetPublic} from '../../store/userList/actions';
 import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-const mapState = ({userList}: RootState) => ({
-  userList,
+const mapState = ({userList: {list}}: RootState) => ({
+  userList: list,
 });
 
 const mapDispatch = {

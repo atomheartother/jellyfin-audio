@@ -1,5 +1,10 @@
+import {JFAError} from '../type';
+
+export type UserList = {[key: string]: User};
+
 export type UserListState = {
-  [key: string]: User;
+  list: UserList;
+  error?: JFAError;
 };
 
 export const USERLIST_ADD = 'USERLIST/ADD';
@@ -15,7 +20,18 @@ export interface AUserListGetPublic {
   type: typeof USERLIST_GET_PUBLIC;
 }
 
-export type UserListActionType = AUserListAdd | AUserListGetPublic;
+export const USERLIST_GET_PUBLIC_FAILED = 'USERLIST/GET_PUBLIC_FAILED';
+
+export interface AUsertListGetPublicError {
+  type: typeof USERLIST_GET_PUBLIC_FAILED;
+  status: number;
+  message: string;
+}
+
+export type UserListActionType =
+  | AUserListAdd
+  | AUserListGetPublic
+  | AUsertListGetPublicError;
 
 export type User = {
   Name: string;

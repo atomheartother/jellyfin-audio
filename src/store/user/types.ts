@@ -29,4 +29,4 @@ export interface ASetToken {
   token: string;
 }
 
-export type ServerActionType = ASetServerUrl | ALogout | ASetToken;
+export type UserActionType = ASetServerUrl | ALogout | ASetToken;
