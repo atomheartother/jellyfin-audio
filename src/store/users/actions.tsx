@@ -2,6 +2,7 @@ import {
   AUsersAdd,
   AUsersGetPublic,
   AUsersGetPublicError,
+  AUsersLogin,
   AUsersLoginError,
   AUsersLoginSuccess,
   LoginResponseType,
@@ -9,6 +10,7 @@ import {
   USERS_ADD,
   USERS_GET_PUBLIC,
   USERS_GET_PUBLIC_FAILED,
+  USERS_LOGIN,
   USERS_LOGIN_ERROR,
   USERS_LOGIN_SUCCESS,
 } from './types';
@@ -29,6 +31,12 @@ export const userListGetPublicError = (
   type: USERS_GET_PUBLIC_FAILED,
   status,
   message,
+});
+
+export const login = (username: string, password: string): AUsersLogin => ({
+  type: USERS_LOGIN,
+  username,
+  password,
 });
 
 export const loginSuccess = (

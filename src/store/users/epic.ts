@@ -23,6 +23,7 @@ import {
   USERS_LOGIN,
 } from './types';
 import {navigate} from '../../RootNavigation';
+import {computeHeadersFromStore} from '../user';
 
 const getUsersPublicUrl = 'users/public';
 const loginUrl = 'Users/authenticatebyname';
@@ -54,12 +55,16 @@ const loginEpic: Epic<
   action$.pipe(
     ofType<UsersActionType, AUsersLogin>(USERS_LOGIN),
     withLatestFrom(state$),
-    mergeMap(([{username: Username, password: Pw}, {user: {url}}]) =>
+    mergeMap(([{username: Username, password: Pw}, {user}]) =>
       ajax
-        .post(`${url}/${loginUrl}`, {
-          Username,
-          Pw,
-        })
+        .post(
+          `${user.url}/${loginUrl}`,
+          {
+            Username,
+            Pw,
+          },
+          computeHeadersFromStore(user),
+        )
         .pipe(
           mergeMap((response) =>
             of(loginSuccess(response.response as LoginResponseType)),

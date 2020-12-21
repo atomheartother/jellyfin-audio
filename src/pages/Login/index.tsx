@@ -2,16 +2,18 @@ import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '../../store';
-import {usersGetPublic} from '../../store/users/actions';
+import {usersGetPublic, login} from '../../store/users/actions';
 import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 const mapState = ({userList: {list}}: RootState) => ({
   userList: list,
 });
 
 const mapDispatch = {
-  userListGetPublic: usersGetPublic,
+  usersGetPublic,
+  login,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -24,16 +26,22 @@ const Login: React.FC<
   ReduxProps & {
     navigation: LoginNavigationProp;
   }
-> = ({userList, userListGetPublic: getUsersPublic}) => {
+> = ({userList, usersGetPublic: getUsersPublic, login: dispatchLogin}) => {
   useEffect(() => {
     getUsersPublic();
   }, [getUsersPublic]);
   return (
     <View>
       {Object.values(userList).map((user) => (
-        <Text key={user.Id}>
-          {user.Name} - {user.Id}
-        </Text>
+        <TouchableNativeFeedback
+          key={user.Id}
+          onPress={() => {
+            dispatchLogin(user.Name, '');
+          }}>
+          <Text>
+            {user.Name} - {user.Id}
+          </Text>
+        </TouchableNativeFeedback>
       ))}
     </View>
   );
