@@ -11,6 +11,7 @@ const initialState: UserState = {
   id: '',
   token: '',
   remember: false,
+  deviceId: '',
 };
 
 const serverReducer = (state = initialState, action: UserActionType) => {

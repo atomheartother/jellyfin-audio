@@ -4,7 +4,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '../../store';
 import {setServerUrl} from '../../store/user/actions';
-import {userListGetPublic} from '../../store/userList/actions';
+import {usersGetPublic} from '../../store/users/actions';
 
 const mapState = ({user: {url}, userList: {error}}: RootState) => ({
   url,
@@ -13,7 +13,7 @@ const mapState = ({user: {url}, userList: {error}}: RootState) => ({
 
 const mapDispatch = {
   setServerUrl,
-  userListGetPublic,
+  usersGetPublic,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -23,7 +23,7 @@ type ReduxProps = ConnectedProps<typeof connector>;
 const ServerSelect: React.FC<ReduxProps> = ({
   url,
   setServerUrl: setUrl,
-  userListGetPublic: getPublicUsers,
+  usersGetPublic: getPublicUsers,
   userListError,
 }) => {
   const [localUrl, setLocalUrl] = useState(url);

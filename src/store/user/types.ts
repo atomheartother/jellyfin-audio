@@ -1,3 +1,6 @@
+// User is an internal representation of the info we need to identify to the server
+// It is NOT an API description. That's in users.
+// Info here will be **persisted**
 export interface UserState {
   // URL of the server to connect to
   url: string;
@@ -7,6 +10,8 @@ export interface UserState {
   id: string;
   // Whether we should remember the user in between logins
   remember: boolean;
+  // ID of our device (provided by the server)
+  deviceId: string;
 }
 
 export const SET_SERVER_URL = 'USER/SET_URL';

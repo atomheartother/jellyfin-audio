@@ -7,31 +7,31 @@ export type UserListState = {
   error?: JFAError;
 };
 
-export const USERLIST_ADD = 'USERLIST/ADD';
+export const USERS_ADD = 'USERS/ADD';
 
-export interface AUserListAdd {
-  type: typeof USERLIST_ADD;
+export interface AUsersAdd {
+  type: typeof USERS_ADD;
   users: User[];
 }
 
-export const USERLIST_GET_PUBLIC = 'USERLIST/GET_PUBLIC';
+export const USERS_GET_PUBLIC = 'USERS/GET_PUBLIC';
 
-export interface AUserListGetPublic {
-  type: typeof USERLIST_GET_PUBLIC;
+export interface AUsersGetPublic {
+  type: typeof USERS_GET_PUBLIC;
 }
 
-export const USERLIST_GET_PUBLIC_FAILED = 'USERLIST/GET_PUBLIC_FAILED';
+export const USERS_GET_PUBLIC_FAILED = 'USERS/GET_PUBLIC_FAILED';
 
-export interface AUsertListGetPublicError {
-  type: typeof USERLIST_GET_PUBLIC_FAILED;
+export interface AUsersGetPublicError {
+  type: typeof USERS_GET_PUBLIC_FAILED;
   status: number;
   message: string;
 }
 
-export type UserListActionType =
-  | AUserListAdd
-  | AUserListGetPublic
-  | AUsertListGetPublicError;
+export type UsersActionType =
+  | AUsersAdd
+  | AUsersGetPublic
+  | AUsersGetPublicError;
 
 export type User = {
   Name: string;
@@ -94,8 +94,8 @@ type UserPolicy = {
   EnableAllChannels: boolean;
   EnabledFolders: [];
   EnableAllFolders: boolean;
-  InvalidLoginAttemptCount: 0;
-  LoginAttemptsBeforeLockout: -1;
+  InvalidLoginAttemptCount: number;
+  LoginAttemptsBeforeLockout: number; // -1 if none
   EnablePublicSharing: boolean;
   BlockedMediaFolders: [];
   BlockedChannels: [];
