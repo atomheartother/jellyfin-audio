@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '../../store';
-import {userListGetPublic} from '../../store/userList/actions';
+import {usersGetPublic} from '../../store/users/actions';
 import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
 
@@ -11,7 +11,7 @@ const mapState = ({userList: {list}}: RootState) => ({
 });
 
 const mapDispatch = {
-  userListGetPublic,
+  userListGetPublic: usersGetPublic,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -31,8 +31,8 @@ const Login: React.FC<
   return (
     <View>
       {Object.values(userList).map((user) => (
-        <Text key={user.ServerId}>
-          {user.Name} - {user.ServerId}
+        <Text key={user.Id}>
+          {user.Name} - {user.Id}
         </Text>
       ))}
     </View>

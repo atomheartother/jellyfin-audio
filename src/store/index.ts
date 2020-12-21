@@ -1,8 +1,8 @@
 import {createStore, combineReducers, applyMiddleware, Action} from 'redux';
 import {combineEpics, createEpicMiddleware} from 'redux-observable';
 import user from './user';
-import userList from './userList';
-import userListEpics from './userList/epic';
+import userList from './users';
+import userListEpics from './users/epic';
 
 const rootEpic = combineEpics(userListEpics);
 

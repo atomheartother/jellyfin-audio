@@ -1,19 +1,19 @@
 import {JFAErrorCode} from '../type';
 import {
   UserList,
-  UserListActionType,
+  UsersActionType,
   UserListState,
-  USERLIST_ADD,
-  USERLIST_GET_PUBLIC_FAILED,
+  USERS_ADD,
+  USERS_GET_PUBLIC_FAILED,
 } from './types';
 
 const initialState: UserListState = {
   list: {},
 };
 
-const userListReducer = (state = initialState, action: UserListActionType) => {
+const userListReducer = (state = initialState, action: UsersActionType) => {
   switch (action.type) {
-    case USERLIST_ADD: {
+    case USERS_ADD: {
       return {
         ...state,
         list: {
@@ -28,7 +28,7 @@ const userListReducer = (state = initialState, action: UserListActionType) => {
         },
       };
     }
-    case USERLIST_GET_PUBLIC_FAILED:
+    case USERS_GET_PUBLIC_FAILED:
       return {
         ...state,
         error: {

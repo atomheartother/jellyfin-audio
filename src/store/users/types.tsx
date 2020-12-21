@@ -28,10 +28,43 @@ export interface AUsersGetPublicError {
   message: string;
 }
 
+export const USERS_LOGIN = 'USERS/LOGIN';
+
+export interface AUsersLogin {
+  type: typeof USERS_LOGIN;
+  username: string;
+  password: string;
+}
+
+export const USERS_LOGIN_SUCCESS = 'USERS/LOGIN_SUCCESS';
+
+export interface AUsersLoginSuccess {
+  type: typeof USERS_LOGIN_SUCCESS;
+  response: LoginResponseType;
+}
+
+export const USERS_LOGIN_ERROR = 'USERS/LOGIN_ERROR';
+
+export interface AUsersLoginError {
+  type: typeof USERS_LOGIN_ERROR;
+  status: number;
+  message: string;
+}
+
 export type UsersActionType =
   | AUsersAdd
   | AUsersGetPublic
-  | AUsersGetPublicError;
+  | AUsersGetPublicError
+  | AUsersLogin
+  | AUsersLoginSuccess
+  | AUsersLoginError;
+
+export type LoginResponseType = {
+  User: User;
+  SessionInfo: SessionInfo;
+  AccessToken: string;
+  ServerId: string;
+};
 
 export type User = {
   Name: string;
@@ -104,3 +137,78 @@ type UserPolicy = {
   PasswordResetProviderId: string;
   SyncPlayAccess: string;
 };
+
+export type SessionInfo = {
+  PlayState: {
+    CanSeek: boolean;
+    IsPaused: boolean;
+    IsMuted: boolean;
+    RepeatMode: 'RepeatNone'; // TODO: Make an enum with the other values
+  };
+  AdditionalUsers: []; // ??
+  Capabilities: {
+    PlayableMediaTypes: PlayableMedia[];
+    SupportedCommands: SupportedCommand[];
+    SupportsMediaControl: true;
+    SupportsContentUploading: false;
+    SupportsPersistentIdentifier: false;
+    SupportsSync: false;
+  };
+  RemoteEndPoint: string; // IP
+  PlayableMediaTypes: PlayableMedia[];
+  Id: string;
+  UserId: string;
+  UserName: string;
+  Client: string;
+  LastActivityDate: string;
+  LastPlaybackCheckIn: string;
+  DeviceName: string;
+  DeviceId: string;
+  ApplicationVersion: string;
+  IsActive: boolean;
+  SupportsMediaControl: boolean;
+  SupportsRemoteControl: boolean;
+  HasCustomDeviceName: boolean;
+  ServerId: string;
+  UserPrimaryImageTag: string;
+  SupportedCommands: SupportedCommand[];
+};
+
+// TODO: Check the other possible values
+type PlayableMedia = 'Audio' | 'Video';
+
+// TODO: Check the other possible values
+type SupportedCommand =
+  | 'MoveUp'
+  | 'MoveDown'
+  | 'MoveLeft'
+  | 'MoveRight'
+  | 'PageUp'
+  | 'PageDown'
+  | 'PreviousLetter'
+  | 'NextLetter'
+  | 'ToggleOsd'
+  | 'ToggleContextMenu'
+  | 'Select'
+  | 'Back'
+  | 'SendKey'
+  | 'SendString'
+  | 'GoHome'
+  | 'GoToSettings'
+  | 'VolumeUp'
+  | 'VolumeDown'
+  | 'Mute'
+  | 'Unmute'
+  | 'ToggleMute'
+  | 'SetVolume'
+  | 'SetAudioStreamIndex'
+  | 'SetSubtitleStreamIndex'
+  | 'DisplayContent'
+  | 'GoToSearch'
+  | 'DisplayMessage'
+  | 'SetRepeatMode'
+  | 'SetShuffleQueue'
+  | 'ChannelUp'
+  | 'ChannelDown'
+  | 'PlayMediaSource'
+  | 'PlayTrailers';

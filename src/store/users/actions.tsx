@@ -1,27 +1,48 @@
 import {
-  AUserListAdd,
-  AUserListGetPublic,
-  AUsertListGetPublicError,
+  AUsersAdd,
+  AUsersGetPublic,
+  AUsersGetPublicError,
+  AUsersLoginError,
+  AUsersLoginSuccess,
+  LoginResponseType,
   User,
-  USERLIST_ADD,
-  USERLIST_GET_PUBLIC,
-  USERLIST_GET_PUBLIC_FAILED,
+  USERS_ADD,
+  USERS_GET_PUBLIC,
+  USERS_GET_PUBLIC_FAILED,
+  USERS_LOGIN_ERROR,
+  USERS_LOGIN_SUCCESS,
 } from './types';
 
-export const userListAdd = (users: User[]): AUserListAdd => ({
-  type: USERLIST_ADD,
+export const usersAdd = (users: User[]): AUsersAdd => ({
+  type: USERS_ADD,
   users,
 });
 
-export const userListGetPublic = (): AUserListGetPublic => ({
-  type: USERLIST_GET_PUBLIC,
+export const usersGetPublic = (): AUsersGetPublic => ({
+  type: USERS_GET_PUBLIC,
 });
 
 export const userListGetPublicError = (
   status: number,
   message: string,
-): AUsertListGetPublicError => ({
-  type: USERLIST_GET_PUBLIC_FAILED,
+): AUsersGetPublicError => ({
+  type: USERS_GET_PUBLIC_FAILED,
+  status,
+  message,
+});
+
+export const loginSuccess = (
+  response: LoginResponseType,
+): AUsersLoginSuccess => ({
+  type: USERS_LOGIN_SUCCESS,
+  response,
+});
+
+export const loginError = (
+  status: number,
+  message: string,
+): AUsersLoginError => ({
+  type: USERS_LOGIN_ERROR,
   status,
   message,
 });
