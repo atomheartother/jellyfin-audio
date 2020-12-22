@@ -1,24 +1,20 @@
-import {
-  UserActionType,
-  UserState,
-  SET_SERVER_URL,
-  USER_LOGOUT,
-  SET_TOKEN,
-} from './types';
+import {AUsersLoginSuccess, USERS_LOGIN_SUCCESS} from '../users/types';
+import {UserActionType, UserState, SET_SERVER_URL, USER_LOGOUT} from './types';
 
 const initialState: UserState = {
   url: '',
-  id: '',
   token: '',
   remember: false,
-  deviceId: '',
+  session: null,
 };
 
-export const computeHeadersFromStore = (state: UserState): Object => {
+export const computeHeadersFromStore = ({token}: UserState): Object => {
+  // TODO: make this vary between platforms & devices
+  // Maybe compute it at startup?
   let authString =
-    'MediaBrowser Client="JellyfinAudio", Device="Mobile", Version="0.1"';
-  if (state.deviceId) {
-    authString += `, DeviceId="${state.deviceId}"`;
+    'MediaBrowser Client="Jellyfin Audio", DeviceId="QW5kcm9pZCBKZWxseWZpbiBBdWRpbyAwLjF8MDAwMDA=", Device="Android", Version="0.1"';
+  if (token) {
+    authString += `, Token="${token}"`;
   }
   return {
     Accept: 'application/json',
@@ -27,22 +23,30 @@ export const computeHeadersFromStore = (state: UserState): Object => {
   };
 };
 
-const serverReducer = (state = initialState, action: UserActionType) => {
+const serverReducer = (
+  state = initialState,
+  action: UserActionType | AUsersLoginSuccess,
+) => {
   switch (action.type) {
     case SET_SERVER_URL:
       return {
         ...state,
         url: action.url,
       };
-    case SET_TOKEN:
-      return {
-        ...state,
-        token: action.token,
-      };
     case USER_LOGOUT:
       return {
         ...state,
         token: '',
+        session: null,
+      };
+    case USERS_LOGIN_SUCCESS:
+      const {
+        response: {SessionInfo, AccessToken},
+      } = action;
+      return {
+        ...state,
+        session: SessionInfo,
+        token: AccessToken,
       };
     default:
       return state;

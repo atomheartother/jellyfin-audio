@@ -66,12 +66,17 @@ const loginEpic: Epic<
           computeHeadersFromStore(user),
         )
         .pipe(
-          mergeMap((response) =>
-            of(loginSuccess(response.response as LoginResponseType)),
+          map((response) =>
+            loginSuccess(response.response as LoginResponseType),
           ),
-          catchError((error: AjaxError) =>
-            of(loginError(error.status, error.message)),
-          ),
+          tap((val) => {
+            console.log(val);
+            navigate('Home');
+          }),
+          catchError((error: AjaxError) => {
+            console.error(error);
+            return of(loginError(error.status, error.message));
+          }),
         ),
     ),
   );
