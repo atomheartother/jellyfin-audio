@@ -11,17 +11,20 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {Provider} from 'react-redux';
-import store from './store';
+import {store, persistor} from './store';
 
 import {SafeAreaView, StatusBar} from 'react-native';
 import RootRouter from './router';
+import {PersistGate} from 'redux-persist/integration/react';
 
 const App: React.FC = () => (
   <Provider store={store}>
-    <StatusBar barStyle="dark-content" />
-    <SafeAreaView style={{flex: 1}}>
-      <RootRouter />
-    </SafeAreaView>
+    <PersistGate loading={null} persistor={persistor}>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView style={{flex: 1}}>
+        <RootRouter />
+      </SafeAreaView>
+    </PersistGate>
   </Provider>
 );
 
