@@ -69,10 +69,7 @@ const loginEpic: Epic<
           map((response) =>
             loginSuccess(response.response as LoginResponseType),
           ),
-          tap((val) => {
-            console.log(val);
-            navigate('Home');
-          }),
+          tap(() => navigate('Home')),
           catchError((error: AjaxError) => {
             console.error(error);
             return of(loginError(error.status, error.message));
