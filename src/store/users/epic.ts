@@ -5,7 +5,7 @@ import {catchError, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {RootState} from '..';
 import {
   usersAdd,
-  userListGetPublicError,
+  usersGetPublicError,
   loginSuccess,
   loginError,
 } from './actions';
@@ -23,7 +23,7 @@ import {
   USERS_LOGIN,
 } from './types';
 import {navigate} from '../../RootNavigation';
-import {computeHeadersFromStore} from '../user';
+import {computeHeadersFromStore} from '../session';
 
 const getUsersPublicUrl = 'users/public';
 const loginUrl = 'Users/authenticatebyname';
@@ -36,12 +36,12 @@ const getUsersPublicEpic: Epic<
   action$.pipe(
     ofType<UsersActionType, AUsersGetPublic>(USERS_GET_PUBLIC),
     withLatestFrom(state$),
-    mergeMap(([, {user: {url}}]) =>
+    mergeMap(([, {session: {url}}]) =>
       ajax.getJSON<User[]>(`${url}/${getUsersPublicUrl}`).pipe(
         map(usersAdd),
         tap(() => navigate('Login')),
         catchError((error: AjaxError) =>
-          of(userListGetPublicError(error.status, error.message)),
+          of(usersGetPublicError(error.status, error.message)),
         ),
       ),
     ),
@@ -55,15 +55,15 @@ const loginEpic: Epic<
   action$.pipe(
     ofType<UsersActionType, AUsersLogin>(USERS_LOGIN),
     withLatestFrom(state$),
-    mergeMap(([{username: Username, password: Pw}, {user}]) =>
+    mergeMap(([{username: Username, password: Pw}, {session}]) =>
       ajax
         .post(
-          `${user.url}/${loginUrl}`,
+          `${session.url}/${loginUrl}`,
           {
             Username,
             Pw,
           },
-          computeHeadersFromStore(user),
+          computeHeadersFromStore(session),
         )
         .pipe(
           map((response) =>

@@ -5,7 +5,7 @@ import {RootState} from '../../store';
 import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-const mapState = ({user: {token, session}}: RootState) => ({
+const mapState = ({session: {token, session}}: RootState) => ({
   token,
   session,
 });
@@ -29,6 +29,7 @@ const Login: React.FC<
           <Text>Device ID: {session.DeviceId}</Text>
           <Text>Device Name: {session.DeviceName}</Text>
           <Text>User ID: {session.UserId}</Text>
+          <Text>Username: {session.UserName}</Text>
         </>
       )}
     </View>

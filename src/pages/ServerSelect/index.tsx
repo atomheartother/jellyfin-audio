@@ -3,12 +3,12 @@ import {Button, Text, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '../../store';
-import {setServerUrl} from '../../store/user/actions';
+import {setServerUrl} from '../../store/session/actions';
 import {usersGetPublic} from '../../store/users/actions';
 
-const mapState = ({user: {url}, userList: {error}}: RootState) => ({
+const mapState = ({user: {url}, users: {error}}: RootState) => ({
   url,
-  userListError: error,
+  usersError: error,
 });
 
 const mapDispatch = {
@@ -24,7 +24,7 @@ const ServerSelect: React.FC<ReduxProps> = ({
   url,
   setServerUrl: setUrl,
   usersGetPublic: getPublicUsers,
-  userListError,
+  usersError,
 }) => {
   const [localUrl, setLocalUrl] = useState(url);
   const submitUrl = (): void => {
@@ -40,7 +40,7 @@ const ServerSelect: React.FC<ReduxProps> = ({
         placeholder="https://jellyfin.myserver.net"
       />
       <Button onPress={submitUrl} title="Set URL" />
-      {userListError && <Text>{userListError.message}</Text>}
+      {usersError && <Text>{usersError.message}</Text>}
     </View>
   );
 };

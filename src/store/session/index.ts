@@ -1,14 +1,19 @@
 import {AUsersLoginSuccess, USERS_LOGIN_SUCCESS} from '../users/types';
-import {UserActionType, UserState, SET_SERVER_URL, USER_LOGOUT} from './types';
+import {
+  UserActionType,
+  SessionState,
+  SET_SERVER_URL,
+  USER_LOGOUT,
+} from './types';
 
-const initialState: UserState = {
+const initialState: SessionState = {
   url: '',
   token: '',
   remember: false,
   session: null,
 };
 
-export const computeHeadersFromStore = ({token}: UserState): Object => {
+export const computeHeadersFromStore = ({token}: SessionState): Object => {
   // TODO: make this vary between platforms & devices
   // Maybe compute it at startup?
   let authString =
@@ -23,7 +28,7 @@ export const computeHeadersFromStore = ({token}: UserState): Object => {
   };
 };
 
-const serverReducer = (
+const sessionReducer = (
   state = initialState,
   action: UserActionType | AUsersLoginSuccess,
 ) => {
@@ -53,4 +58,4 @@ const serverReducer = (
   }
 };
 
-export default serverReducer;
+export default sessionReducer;

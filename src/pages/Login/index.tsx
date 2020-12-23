@@ -7,8 +7,8 @@ import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
-const mapState = ({userList: {list}}: RootState) => ({
-  userList: list,
+const mapState = ({users: {list}}: RootState) => ({
+  users: list,
 });
 
 const mapDispatch = {
@@ -26,13 +26,13 @@ const Login: React.FC<
   ReduxProps & {
     navigation: LoginNavigationProp;
   }
-> = ({userList, usersGetPublic: getUsersPublic, login: dispatchLogin}) => {
+> = ({users, usersGetPublic: getUsersPublic, login: dispatchLogin}) => {
   useEffect(() => {
     getUsersPublic();
   }, [getUsersPublic]);
   return (
     <View>
-      {Object.values(userList).map((user) => (
+      {Object.values(users).map((user) => (
         <TouchableNativeFeedback
           key={user.Id}
           onPress={() => {

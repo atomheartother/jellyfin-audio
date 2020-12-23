@@ -1,17 +1,17 @@
 import {JFAErrorCode} from '../type';
 import {
-  UserList,
+  Users,
   UsersActionType,
-  UserListState,
+  UsersState,
   USERS_ADD,
   USERS_GET_PUBLIC_FAILED,
 } from './types';
 
-const initialState: UserListState = {
+const initialState: UsersState = {
   list: {},
 };
 
-const userListReducer = (state = initialState, action: UsersActionType) => {
+const usersReducer = (state = initialState, action: UsersActionType) => {
   switch (action.type) {
     case USERS_ADD: {
       return {
@@ -19,7 +19,7 @@ const userListReducer = (state = initialState, action: UsersActionType) => {
         list: {
           ...state.list,
           ...action.users.reduce(
-            (acc: UserList, curr) => ({
+            (acc: Users, curr) => ({
               ...acc,
               [curr.ServerId]: curr,
             }),
@@ -42,4 +42,4 @@ const userListReducer = (state = initialState, action: UsersActionType) => {
   }
 };
 
-export default userListReducer;
+export default usersReducer;

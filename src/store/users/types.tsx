@@ -1,9 +1,9 @@
 import {JFAError} from '../type';
 
-export type UserList = {[key: string]: User};
+export type Users = {[key: string]: User};
 
-export type UserListState = {
-  list: UserList;
+export type UsersState = {
+  list: Users;
   error?: JFAError;
 };
 

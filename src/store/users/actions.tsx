@@ -24,7 +24,7 @@ export const usersGetPublic = (): AUsersGetPublic => ({
   type: USERS_GET_PUBLIC,
 });
 
-export const userListGetPublicError = (
+export const usersGetPublicError = (
   status: number,
   message: string,
 ): AUsersGetPublicError => ({

@@ -2,15 +2,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {createStore, combineReducers, applyMiddleware, Action} from 'redux';
 import {combineEpics, createEpicMiddleware} from 'redux-observable';
 import {persistStore, persistReducer} from 'redux-persist';
-import user from './user';
-import userList from './users';
-import userListEpics from './users/epic';
+import session from './session';
+import users from './users';
+import usersEpics from './users/epic';
 
-const rootEpic = combineEpics(userListEpics);
+const rootEpic = combineEpics(usersEpics);
 
 const rootReducer = combineReducers({
-  user,
-  userList,
+  session,
+  users,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
