@@ -5,9 +5,10 @@ import {RootState} from '../../store';
 import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-const mapState = ({session: {token, session}}: RootState) => ({
+const mapState = ({session: {token, session}, libraries}: RootState) => ({
   token,
   session,
+  libraries,
 });
 
 const connector = connect(mapState);
@@ -20,7 +21,7 @@ const Login: React.FC<
   ReduxProps & {
     navigation: LoginNavigationProp;
   }
-> = ({token, session}) => {
+> = ({token, session, libraries}) => {
   return (
     <View>
       <Text>Token: {token}</Text>
@@ -32,6 +33,13 @@ const Login: React.FC<
           <Text>Username: {session.UserName}</Text>
         </>
       )}
+      {Object.values(libraries).map((library, index) => (
+        <View key={library.Id}>
+          <Text>Library {index}:</Text>
+          <Text>Name: {library.Name}</Text>
+          <Text>Id: {library.Id}</Text>
+        </View>
+      ))}
     </View>
   );
 };

@@ -4,11 +4,29 @@ export type LibrariesState = {
   [key: string]: LibraryData;
 };
 
-// Loginsuccess is an action
-export type LibrariesActionType = AUsersLoginSuccess;
+export const LIBRARIES_SET = 'LIBRARIES/SET';
+
+export interface ALibrariesSet {
+  type: typeof LIBRARIES_SET;
+  libraries: LibraryData[];
+}
+
+export const LIBRARIES_GET_ERROR = 'LIBRARIES/GET_ERROR';
+
+export interface ALibrariesGetError {
+  type: typeof LIBRARIES_GET_ERROR;
+  status: number;
+  message: string;
+}
+
+// Loginsuccess is a libraryaction because we need to receive it
+export type LibrariesActionType =
+  | AUsersLoginSuccess
+  | ALibrariesSet
+  | ALibrariesGetError;
 
 // API description of a library (called a View)
-type LibraryData = {
+export type LibraryData = {
   Id: string;
   Name: string;
   ServerId: string;

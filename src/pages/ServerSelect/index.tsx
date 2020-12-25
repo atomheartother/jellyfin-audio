@@ -6,7 +6,7 @@ import {RootState} from '../../store';
 import {setServerUrl} from '../../store/session/actions';
 import {usersGetPublic} from '../../store/users/actions';
 
-const mapState = ({user: {url}, users: {error}}: RootState) => ({
+const mapState = ({session: {url}, users: {error}}: RootState) => ({
   url,
   usersError: error,
 });

@@ -1,7 +1,7 @@
 import {combineEpics, Epic, ofType} from 'redux-observable';
 import {of} from 'rxjs';
 import {ajax, AjaxError} from 'rxjs/ajax';
-import {catchError, map, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {RootState} from '..';
 import {
   usersAdd,
@@ -36,7 +36,7 @@ const getUsersPublicEpic: Epic<
   action$.pipe(
     ofType<UsersActionType, AUsersGetPublic>(USERS_GET_PUBLIC),
     withLatestFrom(state$),
-    mergeMap(([, {session: {url}}]) =>
+    switchMap(([, {session: {url}}]) =>
       ajax.getJSON<User[]>(`${url}/${getUsersPublicUrl}`).pipe(
         map(usersAdd),
         tap(() => navigate('Login')),
@@ -55,7 +55,7 @@ const loginEpic: Epic<
   action$.pipe(
     ofType<UsersActionType, AUsersLogin>(USERS_LOGIN),
     withLatestFrom(state$),
-    mergeMap(([{username: Username, password: Pw}, {session}]) =>
+    switchMap(([{username: Username, password: Pw}, {session}]) =>
       ajax
         .post(
           `${session.url}/${loginUrl}`,

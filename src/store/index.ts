@@ -4,13 +4,16 @@ import {combineEpics, createEpicMiddleware} from 'redux-observable';
 import {persistStore, persistReducer} from 'redux-persist';
 import session from './session';
 import users from './users';
+import libraries from './libraries';
 import usersEpics from './users/epic';
+import librariesEpic from './libraries/epic';
 
-const rootEpic = combineEpics(usersEpics);
+const rootEpic = combineEpics(usersEpics, librariesEpic);
 
 const rootReducer = combineReducers({
   session,
   users,
+  libraries,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
@@ -24,7 +27,7 @@ const epicMiddleware = createEpicMiddleware<
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user'],
+  whitelist: ['session'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
