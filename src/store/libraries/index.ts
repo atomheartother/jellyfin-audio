@@ -1,4 +1,14 @@
-import {LibrariesActionType, LibrariesState, LIBRARIES_SET} from './types';
+import {
+  LibrariesActionType,
+  LibrariesState,
+  LIBRARIES_SET,
+  LibrarySettings,
+} from './types';
+
+const defaultLibrarySettings: LibrarySettings = {
+  sortBy: 'Name',
+  sortOrder: 'Ascending',
+};
 
 const initialState: LibrariesState = {};
 
@@ -11,7 +21,18 @@ const librariesReducer = (
       const libraries = action.libraries;
       const dict: LibrariesState = {};
       libraries.forEach((library) => {
-        dict[library.Id] = library;
+        if (state[library.Id]) {
+          dict[library.Id] = {
+            ...state[library.Id],
+            data: library,
+          };
+        } else {
+          dict[library.Id] = {
+            data: library,
+            settings: {...defaultLibrarySettings},
+            medias: [],
+          };
+        }
       });
       return dict;
     default:

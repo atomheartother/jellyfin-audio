@@ -4,6 +4,7 @@ import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '../../store';
 import {RouteStackParamList} from '../../router';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 const mapState = ({session: {token, session}, libraries}: RootState) => ({
   token,
@@ -34,11 +35,11 @@ const Login: React.FC<
         </>
       )}
       {Object.values(libraries).map((library, index) => (
-        <View key={library.Id}>
-          <Text>Library {index}:</Text>
-          <Text>Name: {library.Name}</Text>
-          <Text>Id: {library.Id}</Text>
-        </View>
+        <TouchableNativeFeedback onPress={() => {}} key={library.data.Id}>
+          <Text style={{fontWeight: 'bold'}}>Library #{index}:</Text>
+          <Text>Name: {library.data.Name}</Text>
+          <Text>Id: {library.data.Id}</Text>
+        </TouchableNativeFeedback>
       ))}
     </View>
   );

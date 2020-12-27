@@ -1,7 +1,13 @@
 import {AUsersLoginSuccess} from '../users/types';
 
 export type LibrariesState = {
-  [key: string]: LibraryData;
+  [key: string]: Library;
+};
+
+export type Library = {
+  data: LibraryData;
+  settings: LibrarySettings;
+  medias: string[]; // strings refer to IDs in media store
 };
 
 export const LIBRARIES_SET = 'LIBRARIES/SET';
@@ -86,3 +92,19 @@ type LibraryType = 'CollectionFolder';
 type CollectionTypeEnum = 'music' | 'movies' | 'tvshows';
 
 type LocationTypeEnum = 'FileSystem';
+
+export type LibrarySettings = {
+  sortBy: SortByEnum;
+  sortOrder: SortOrderEnum;
+};
+
+type SortByEnum =
+  | 'Name'
+  | 'AlbumArtist'
+  | 'CommunityRating'
+  | 'CriticRating'
+  | 'DateCreated'
+  | 'ProductionYear'
+  | 'Random';
+
+type SortOrderEnum = 'Ascending' | 'Descending';
