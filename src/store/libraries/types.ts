@@ -1,5 +1,3 @@
-import {AUsersLoginSuccess} from '../users/types';
-
 export type LibrariesState = {
   [key: string]: Library;
 };
@@ -9,6 +7,12 @@ export type Library = {
   settings: LibrarySettings;
   medias: string[]; // strings refer to IDs in media store
 };
+
+export const LIBRARIES_GET = 'LIBRARIES/GET';
+
+export interface ALibrariesGet {
+  type: typeof LIBRARIES_GET;
+}
 
 export const LIBRARIES_SET = 'LIBRARIES/SET';
 
@@ -25,9 +29,8 @@ export interface ALibrariesGetError {
   message: string;
 }
 
-// Loginsuccess is a libraryaction because we need to receive it
 export type LibrariesActionType =
-  | AUsersLoginSuccess
+  | ALibrariesGet
   | ALibrariesSet
   | ALibrariesGetError;
 

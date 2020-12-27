@@ -9,7 +9,6 @@ import {
 const initialState: SessionState = {
   url: '',
   token: '',
-  remember: false,
   session: null,
 };
 

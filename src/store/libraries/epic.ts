@@ -1,25 +1,34 @@
 import {combineEpics, Epic, ofType} from 'redux-observable';
-import {of} from 'rxjs';
+import {REHYDRATE, RehydrateAction} from 'redux-persist';
+import {EMPTY, of} from 'rxjs';
 import {ajax, AjaxError} from 'rxjs/ajax';
-import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {RootState} from '..';
 import {computeHeadersFromStore} from '../session';
-import {AUsersLoginSuccess, USERS_LOGIN_SUCCESS} from '../users/types';
-import {librariesGetError, setLibraries} from './actions';
+import {getLibraries, librariesGetError, setLibraries} from './actions';
 import {
+  ALibrariesGet,
   ALibrariesGetError,
   ALibrariesSet,
   LibrariesActionType,
+  LIBRARIES_GET,
   LibraryData,
 } from './types';
 
+// The GET_LIBRARIES handler
 const getLibrariesEpic: Epic<
   LibrariesActionType,
   ALibrariesSet | ALibrariesGetError,
   RootState
 > = (action$, state$) =>
   action$.pipe(
-    ofType<LibrariesActionType, AUsersLoginSuccess>(USERS_LOGIN_SUCCESS),
+    ofType<LibrariesActionType, ALibrariesGet>(LIBRARIES_GET),
     withLatestFrom(state$),
     switchMap(([, {session}]) =>
       ajax
@@ -37,4 +46,28 @@ const getLibrariesEpic: Epic<
         ),
     ),
   );
-export default combineEpics(getLibrariesEpic);
+
+// On REHYDRATE, get libraries if we're logged in
+const getLibrariesOnRehydrateEpic: Epic<any, ALibrariesGet, RootState> = (
+  action$,
+  state$,
+) =>
+  action$.pipe(
+    ofType<any, RehydrateAction>(REHYDRATE),
+    withLatestFrom(state$),
+    concatMap(
+      ([
+        ,
+        {
+          session: {url, token},
+        },
+      ]) => {
+        if (url && token) {
+          return of(getLibraries());
+        }
+        return EMPTY;
+      },
+    ),
+  );
+
+export default combineEpics(getLibrariesEpic, getLibrariesOnRehydrateEpic);

@@ -1,7 +1,14 @@
 import {combineEpics, Epic, ofType} from 'redux-observable';
 import {of} from 'rxjs';
 import {ajax, AjaxError} from 'rxjs/ajax';
-import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import {RootState} from '..';
 import {
   usersAdd,
@@ -24,6 +31,8 @@ import {
 } from './types';
 import {navigate} from '../../RootNavigation';
 import {computeHeadersFromStore} from '../session';
+import {getLibraries} from '../libraries/actions';
+import {ALibrariesGet} from '../libraries/types';
 
 const getUsersPublicUrl = 'users/public';
 const loginUrl = 'Users/authenticatebyname';
@@ -48,12 +57,12 @@ const getUsersPublicEpic: Epic<
   );
 
 const loginEpic: Epic<
-  UsersActionType,
-  AUsersLoginSuccess | AUsersLoginError,
+  any,
+  AUsersLoginSuccess | AUsersLoginError | ALibrariesGet,
   RootState
 > = (action$, state$) =>
   action$.pipe(
-    ofType<UsersActionType, AUsersLogin>(USERS_LOGIN),
+    ofType<any, AUsersLogin>(USERS_LOGIN),
     withLatestFrom(state$),
     switchMap(([{username: Username, password: Pw}, {session}]) =>
       ajax
@@ -66,10 +75,12 @@ const loginEpic: Epic<
           computeHeadersFromStore(session),
         )
         .pipe(
-          map((response) =>
-            loginSuccess(response.response as LoginResponseType),
+          concatMap((response) =>
+            of(
+              loginSuccess(response.response as LoginResponseType),
+              getLibraries(),
+            ),
           ),
-          tap(() => navigate('Home')),
           catchError((error: AjaxError) => {
             console.error(error);
             return of(loginError(error.status, error.message));

@@ -6,8 +6,6 @@ import {SessionInfo} from '../users/types';
 export interface SessionState {
   // URL of the server to connect to
   url: string;
-  // Whether we should remember the user in between logins
-  remember: boolean;
   // User token, identifies a valid session
   token: string;
   // Session info, contains a bunch of information
